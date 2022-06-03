@@ -18,6 +18,16 @@ import {
 import { Link } from "react-router-dom";
 
 export default function Products() {
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      _id: "",
+      username: "",
+      password: "",
+      email: "",
+      token: "",
+    })
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
