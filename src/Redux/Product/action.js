@@ -69,9 +69,14 @@ export const removeFromCart = (_id, item_id, fn) => (dispatch) => {
 
 //detailspage
 
-export const gettingProductDetails = (_id) => (dispatch) => {
-  axios.get(`${API}/products/${_id}`).then((res) => {
-    console.log(res.data, "details");
-    dispatch(getAllProducts(res.data));
-  });
+export const gettingProductDetails = (id, fn) => (dispatch) => {
+  axios
+    .get(`${API}/products/${id}`)
+    .then((res) => {
+      console.log(res.data, "details");
+      fn(res.data);
+    })
+    .catch((e) => {
+      console.log("error while getting product details");
+    });
 };

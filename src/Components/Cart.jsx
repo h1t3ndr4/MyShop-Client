@@ -11,18 +11,26 @@ import {
   Summary,
 } from "./StyledComponents";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { gettingCartItems, removeFromCart } from "../Redux/Product/action";
 import StripeCheckout from "react-stripe-checkout";
 
 export default function Cart() {
   const [count, setCount] = useState(1);
 
+  const navigate = useNavigate();
+
+  const { _id, username } = useSelector((store) => store.login);
+
   const dispatch = useDispatch();
-  const { _id } = useSelector((store) => store.login);
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    dispatch(gettingCartItems(_id, setCart));
+    if (username != "") {
+      dispatch(gettingCartItems(_id, setCart));
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const removeCartItem = (item_id) => {

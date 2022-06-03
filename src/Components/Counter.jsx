@@ -36,24 +36,26 @@ export function Counter(props) {
   `;
 
   return (
-    <div>
-      <QntyFlex>
-        <QuntyBtn
-          onClick={() => {
-            handleChange(-1);
-          }}
-        >
-          -
-        </QuntyBtn>
-        <QntyP>{counter}</QntyP>
-        <QuntyBtn
-          onClick={() => {
-            handleChange(1);
-          }}
-        >
-          +
-        </QuntyBtn>
-      </QntyFlex>
-    </div>
+    <>
+      <div>
+        <QntyFlex>
+          <QuntyBtn
+            onClick={() => {
+              handleChange(-1);
+            }}
+          >
+            -
+          </QuntyBtn>
+          <QntyP>{counter}</QntyP>
+          <QuntyBtn
+            onClick={() => {
+              handleChange(1);
+            }}
+          >
+            +
+          </QuntyBtn>
+        </QntyFlex>
+      </div>
+    </>
   );
 }

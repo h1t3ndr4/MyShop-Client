@@ -2,28 +2,26 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Product.css";
 import { CartButton, ProdCard } from "./StyledComponents";
-
 import { useEffect } from "react";
-import axios from "axios";
-import { API } from "./API";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addedToCart } from "../Redux/Product/action";
+import { addedToCart, gettingProductDetails } from "../Redux/Product/action";
 
 export default function ProductDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { _id, username } = useSelector((store) => store.login);
-  const { products } = useSelector((store) => store.products);
 
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
 
   useEffect(() => {
-    axios.get(`${API}/products/${id}`).then((res) => {
-      setProduct([res.data]);
-    });
+    if (username != "") {
+      dispatch(gettingProductDetails(id, setProduct));
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const handleCart = (item_id) => {
@@ -36,7 +34,7 @@ export default function ProductDetails() {
       <br />
       <div id="header"></div>
       <ProdCard id="container">
-        <div class="left_side_content">
+        <div className="left_side_content">
           <h4>MATERIALS, CARE AND ORIGIN</h4>
           <h3>MATERIALS</h3>
           <p>
@@ -51,39 +49,33 @@ export default function ProductDetails() {
           </p>
           <p>View more</p>
         </div>
-        <div class="image_div">
-          {product.map((item) => (
-            <img src={item.imgUrl} alt={item.imgUrl} width="200px" />
-          ))}
+        <div className="image_div">
+          <img src={product.imgUrl} alt={product.imgUrl} width="200px" />
         </div>
-        <div class="product_info_rightSide">
-          {product.map((item) => (
-            <div class="product_name">
-              <h2>{item.prod_name}</h2>
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlxF6EZhPKz6EhL_9Zf3-E3nn6y-aDwf2jDnmfQmBdTZc7TtSM5zshsfsEboujZ_JJOmg&usqp=CAU"
-                alt=""
-              />
-            </div>
-          ))}
-          {product.map((item) => (
-            <p>{item.description}</p>
-          ))}
+        <div className="product_info_rightSide">
+          <div className="product_name">
+            <h2>{product.prod_name}</h2>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlxF6EZhPKz6EhL_9Zf3-E3nn6y-aDwf2jDnmfQmBdTZc7TtSM5zshsfsEboujZ_JJOmg&usqp=CAU"
+              alt=""
+            />
+          </div>
+          <p>{product.description}</p>
           <p>₹ 6,990.00</p>
           <p>MRP incl. of all taxes</p>
-          <div class="sizes">
+          <div className="sizes">
             <p>M (UK M)</p>
             <p>L (UK L)</p>
             <p>XL (UK XL)</p>
           </div>
-          {product.map((item) => (
-            <CartButton
-              style={{ width: "18rem" }}
-              onClick={() => handleCart(item._id)}
-            >
-              Add To Cart
-            </CartButton>
-          ))}
+
+          <CartButton
+            style={{ width: "18rem" }}
+            onClick={() => handleCart(product.item._id)}
+          >
+            Add To Cart
+          </CartButton>
+
           <p>DELIVERY, EXCHANGES AND RETURNS</p>
         </div>
       </ProdCard>

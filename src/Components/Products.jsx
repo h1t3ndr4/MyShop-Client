@@ -25,7 +25,11 @@ export default function Products() {
   const { products } = useSelector((store) => store.products);
 
   useEffect(() => {
-    dispatch(getAllProductsFunc());
+    if (username !== "") {
+      dispatch(getAllProductsFunc());
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const handleSort = (value) => {
@@ -73,59 +77,49 @@ export default function Products() {
 
   return (
     <>
-      {username !== "" ? (
-        <>
-          <div>
-            <SelectTag
-              name="sort"
-              id="sort"
-              onChange={(e) => handleSort(e.target.value)}
-            >
-              <OptionTag value="sortNameAsc">Sort By Name Ascending</OptionTag>
-              <OptionTag value="sortNameDes">Sort By Name Descending</OptionTag>
-              <OptionTag value="sortPriceAsc">
-                Sort By Price Ascending
-              </OptionTag>
-              <OptionTag value="sortPriceDes">
-                Sort By Price Descending
-              </OptionTag>
-            </SelectTag>
-            <SelectTag
-              name="Categories"
-              id="filter"
-              onChange={(e) => handleFilter(e.target.value)}
-            >
-              <OptionTag value="all">All</OptionTag>
-              <OptionTag value="men">Men</OptionTag>
-              <OptionTag value="women">Women</OptionTag>
-            </SelectTag>
-          </div>
-          <ProdCard className="ProductsContainer">
-            {products.map((item) => (
-              <ProdBorder key={item._id}>
-                <Link to={`/${item._id}`}>{item.name}</Link>
-                <h5>{item.prod_name}</h5>
-                <img src={item.imgUrl} alt={item.imgUrl} width="200px" />
-                <h5>Price : {item.price}</h5>
-                <h5>Discount : {item.prod_discount}</h5>
-                <h5>Striked Off Price : {item.strikedOffPrice}</h5>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <CartButton onClick={() => handleCart(item._id)}>
-                    Add To Cart
-                  </CartButton>
-                  <CartButton>
-                    <DetailsLink to={`/productdetails/${item._id}`}>
-                      Details
-                    </DetailsLink>
-                  </CartButton>
-                </div>
-              </ProdBorder>
-            ))}
-          </ProdCard>
-        </>
-      ) : (
-        <>{navigate("/login")}</>
-      )}
+      <div>
+        <SelectTag
+          name="sort"
+          id="sort"
+          onChange={(e) => handleSort(e.target.value)}
+        >
+          <OptionTag value="sortNameAsc">Sort By Name Ascending</OptionTag>
+          <OptionTag value="sortNameDes">Sort By Name Descending</OptionTag>
+          <OptionTag value="sortPriceAsc">Sort By Price Ascending</OptionTag>
+          <OptionTag value="sortPriceDes">Sort By Price Descending</OptionTag>
+        </SelectTag>
+        <SelectTag
+          name="Categories"
+          id="filter"
+          onChange={(e) => handleFilter(e.target.value)}
+        >
+          <OptionTag value="all">All</OptionTag>
+          <OptionTag value="men">Men</OptionTag>
+          <OptionTag value="women">Women</OptionTag>
+        </SelectTag>
+      </div>
+      <ProdCard className="ProductsContainer">
+        {products.map((item) => (
+          <ProdBorder key={item._id}>
+            <Link to={`/${item._id}`}>{item.name}</Link>
+            <h5>{item.prod_name}</h5>
+            <img src={item.imgUrl} alt={item.imgUrl} width="200px" />
+            <h5>Price : {item.price}</h5>
+            <h5>Discount : {item.prod_discount}</h5>
+            <h5>Striked Off Price : {item.strikedOffPrice}</h5>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <CartButton onClick={() => handleCart(item._id)}>
+                Add To Cart
+              </CartButton>
+              <CartButton>
+                <DetailsLink to={`/productdetails/${item._id}`}>
+                  Details
+                </DetailsLink>
+              </CartButton>
+            </div>
+          </ProdBorder>
+        ))}
+      </ProdCard>
     </>
   );
 }

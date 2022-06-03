@@ -1,6 +1,12 @@
 import { IS_LOGIN } from "./action";
 
-let user = JSON.parse(localStorage.getItem("user")) || {};
+let user = JSON.parse(localStorage.getItem("user")) || {
+  _id: "",
+  username: "",
+  password: "",
+  email: "",
+  token: "",
+};
 let initialState;
 
 if (user.User !== "") {
