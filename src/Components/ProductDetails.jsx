@@ -16,6 +16,8 @@ export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState({});
 
+  console.log(product, "product");
+
   useEffect(() => {
     if (username != "") {
       dispatch(gettingProductDetails(id, setProduct));
@@ -61,21 +63,20 @@ export default function ProductDetails() {
             />
           </div>
           <p>{product.description}</p>
-          <p>₹ 6,990.00</p>
+          <p>Price : ₹{product.price}</p>
+          <p>strikedOffPrice : ₹{product.strikedOffPrice}</p>
           <p>MRP incl. of all taxes</p>
           <div className="sizes">
             <p>M (UK M)</p>
             <p>L (UK L)</p>
             <p>XL (UK XL)</p>
           </div>
-
           <CartButton
             style={{ width: "18rem" }}
-            onClick={() => handleCart(product.item._id)}
+            onClick={() => handleCart(product.item_id)}
           >
             Add To Cart
           </CartButton>
-
           <p>DELIVERY, EXCHANGES AND RETURNS</p>
         </div>
       </ProdCard>
