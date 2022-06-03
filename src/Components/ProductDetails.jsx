@@ -26,8 +26,8 @@ export default function ProductDetails() {
     }
   }, []);
 
-  const handleCart = (item_id) => {
-    dispatch(addedToCart(_id, item_id));
+  const handleCart = () => {
+    dispatch(addedToCart(_id, id));
   };
 
   return (
@@ -73,7 +73,7 @@ export default function ProductDetails() {
           </div>
           <CartButton
             style={{ width: "18rem" }}
-            onClick={() => handleCart(product.item_id)}
+            onClick={() => handleCart()}
           >
             Add To Cart
           </CartButton>
