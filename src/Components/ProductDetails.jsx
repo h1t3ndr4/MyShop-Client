@@ -6,8 +6,17 @@ import { CartButton, ProdCard } from "./StyledComponents";
 import { useEffect } from "react";
 import axios from "axios";
 import { API } from "./API";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addedToCart } from "../Redux/Product/action";
 
 export default function ProductDetails() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { _id, username } = useSelector((store) => store.login);
+  const { products } = useSelector((store) => store.products);
+
   const { id } = useParams();
   const [product, setProduct] = useState([]);
 
@@ -16,6 +25,10 @@ export default function ProductDetails() {
       setProduct([res.data]);
     });
   }, []);
+
+  const handleCart = (item_id) => {
+    dispatch(addedToCart(_id, item_id));
+  };
 
   return (
     <>
@@ -63,12 +76,14 @@ export default function ProductDetails() {
             <p>L (UK L)</p>
             <p>XL (UK XL)</p>
           </div>
-          {/* <div class="sizeScale">
-            <p>FIND YOUR SIZE</p>
-            <p>SIZE GUIDE</p>
-          </div> */}
-          <CartButton style={{ width: "18rem" }}>ADD TO BAG</CartButton>
-          {/* <p>CHECK IN-STORE AVAILABILITY</p> */}
+          {product.map((item) => (
+            <CartButton
+              style={{ width: "18rem" }}
+              onClick={() => handleCart(item._id)}
+            >
+              Add To Cart
+            </CartButton>
+          ))}
           <p>DELIVERY, EXCHANGES AND RETURNS</p>
         </div>
       </ProdCard>
