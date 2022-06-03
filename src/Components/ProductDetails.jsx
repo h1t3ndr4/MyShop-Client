@@ -19,7 +19,7 @@ export default function ProductDetails() {
   console.log(product, "product");
 
   useEffect(() => {
-    if (username != "") {
+    if (username !== "") {
       dispatch(gettingProductDetails(id, setProduct));
     } else {
       navigate("/login");
